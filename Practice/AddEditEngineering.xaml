@@ -1,0 +1,72 @@
+﻿<Window xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"  x:Class="Practice.AddEditEngineering"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practice"
+        mc:Ignorable="d"
+        Title="Редактирование дробилки" Height="340" Width="440"
+        d:DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Text="Название"/>
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 Text="{Binding En.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Grid.Row="1" Text="Стоимость (руб)"/>
+        <xctk:DoubleUpDown Grid.Row="1" Grid.Column="1" Value="{Binding En.Cost}"/>
+        <TextBlock Grid.Row="2" Text="Производительность (М³/ч)"/>
+        <xctk:DoubleUpDown Grid.Row="2" Grid.Column="1" Value="{Binding En.characteristics.Perfomance}"/>
+        <TextBlock Grid.Row="3" Text="Мощность двигателя (КВт)"/>
+        <xctk:DoubleUpDown Grid.Row="3" Grid.Column="1" Value="{Binding En.characteristics.EnginePower}"/>
+        <TextBlock Grid.Row="4" Text="Входной размер (∅мм)"/>
+        <xctk:DoubleUpDown Grid.Row="4" Grid.Column="1" Value="{Binding En.characteristics.InputSize}"/>
+        <TextBlock Grid.Row="5" Text="Выходной размер (∅мм)"/>
+        <xctk:DoubleUpDown Grid.Row="5" Grid.Column="1" Value="{Binding En.characteristics.OutputSize}"/>
+        <TextBlock Grid.Row="6" Text="Масса (кг)"/>
+        <xctk:DoubleUpDown Grid.Row="6" Grid.Column="1" Value="{Binding En.characteristics.Weight}"/>
+        <TextBlock Grid.Row="7" Text="Способ измельчения"/>
+        <ComboBox Grid.Row="7" Grid.Column="1" DisplayMemberPath="Name"
+                  ItemsSource="{Binding Grindingmethods, Mode=OneWay}" SelectedItem="{Binding En.characteristics.grindingmethod, Mode=TwoWay}" />
+        <TextBlock Grid.Row="8" Text="Тип дробильного оборудования"/>
+        <ComboBox Grid.Row="8" Grid.Column="1" DisplayMemberPath="Name"
+                  ItemsSource="{Binding Engineeringtypes, Mode=OneWay}" SelectedItem="{Binding En.characteristics.engineeringtype, Mode=TwoWay}" />
+
+        
+        <StackPanel
+            Grid.Row="9"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                x:Name="AcceptButton"
+                MinWidth="60"
+                Margin="5"
+                Click="Accept_Click"
+                IsDefault="True">
+                OK
+            </Button>
+            <Button
+                MinWidth="60"
+                Margin="5"
+                IsCancel="True">
+                Отмена
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

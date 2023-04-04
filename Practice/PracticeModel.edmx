@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище practiceModel" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="characteristics">
+          <Key>
+            <PropertyRef Name="CharacteristicsID" />
+          </Key>
+          <Property Name="CharacteristicsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Perfomance" Type="double" />
+          <Property Name="EnginePower" Type="double" />
+          <Property Name="InputSize" Type="double" />
+          <Property Name="OutputSize" Type="double" />
+          <Property Name="Weight" Type="double" />
+          <Property Name="GMID" Type="int" />
+          <Property Name="EnTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="engineering">
+          <Key>
+            <PropertyRef Name="EnID" />
+          </Key>
+          <Property Name="EnID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="text" />
+          <Property Name="Cost" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="CharacteristicsID" Type="int" />
+        </EntityType>
+        <EntityType Name="engineeringtype">
+          <Key>
+            <PropertyRef Name="EnTypeID" />
+          </Key>
+          <Property Name="EnTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="text" />
+        </EntityType>
+        <EntityType Name="grindingmethod">
+          <Key>
+            <PropertyRef Name="GMID" />
+          </Key>
+          <Property Name="GMID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="text" />
+        </EntityType>
+        <EntityType Name="material">
+          <Key>
+            <PropertyRef Name="MatID" />
+          </Key>
+          <Property Name="MatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="text" />
+          <Property Name="BreakingPointMin" Type="double" />
+          <Property Name="BreakingPointMax" Type="double" />
+        </EntityType>
+        <EntityType Name="process">
+          <Key>
+            <PropertyRef Name="EnID" />
+            <PropertyRef Name="MatID" />
+          </Key>
+          <Property Name="EnID" Type="int" Nullable="false" />
+          <Property Name="MatID" Type="int" Nullable="false" />
+          <Property Name="Abiity" Type="bool" />
+        </EntityType>
+        <Association Name="Relationship1">
+          <End Role="engineering" Type="Self.engineering" Multiplicity="1" />
+          <End Role="process" Type="Self.process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="engineering">
+              <PropertyRef Name="EnID" />
+            </Principal>
+            <Dependent Role="process">
+              <PropertyRef Name="EnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship2">
+          <End Role="material" Type="Self.material" Multiplicity="1" />
+          <End Role="process" Type="Self.process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="material">
+              <PropertyRef Name="MatID" />
+            </Principal>
+            <Dependent Role="process">
+              <PropertyRef Name="MatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship5">
+          <End Role="characteristics" Type="Self.characteristics" Multiplicity="0..1" />
+          <End Role="engineering" Type="Self.engineering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="characteristics">
+              <PropertyRef Name="CharacteristicsID" />
+            </Principal>
+            <Dependent Role="engineering">
+              <PropertyRef Name="CharacteristicsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship6">
+          <End Role="grindingmethod" Type="Self.grindingmethod" Multiplicity="0..1" />
+          <End Role="characteristics" Type="Self.characteristics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="grindingmethod">
+              <PropertyRef Name="GMID" />
+            </Principal>
+            <Dependent Role="characteristics">
+              <PropertyRef Name="GMID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship7">
+          <End Role="engineeringtype" Type="Self.engineeringtype" Multiplicity="0..1" />
+          <End Role="characteristics" Type="Self.characteristics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="engineeringtype">
+              <PropertyRef Name="EnTypeID" />
+            </Principal>
+            <Dependent Role="characteristics">
+              <PropertyRef Name="EnTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище practiceModelContainer">
+          <EntitySet Name="characteristics" EntityType="Self.characteristics" Schema="practice" store:Type="Tables" />
+          <EntitySet Name="engineering" EntityType="Self.engineering" Schema="practice" store:Type="Tables" />
+          <EntitySet Name="engineeringtype" EntityType="Self.engineeringtype" Schema="practice" store:Type="Tables" />
+          <EntitySet Name="grindingmethod" EntityType="Self.grindingmethod" Schema="practice" store:Type="Tables" />
+          <EntitySet Name="material" EntityType="Self.material" Schema="practice" store:Type="Tables" />
+          <EntitySet Name="process" EntityType="Self.process" Schema="practice" store:Type="Tables" />
+          <AssociationSet Name="Relationship1" Association="Self.Relationship1">
+            <End Role="engineering" EntitySet="engineering" />
+            <End Role="process" EntitySet="process" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship2" Association="Self.Relationship2">
+            <End Role="material" EntitySet="material" />
+            <End Role="process" EntitySet="process" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship5" Association="Self.Relationship5">
+            <End Role="characteristics" EntitySet="characteristics" />
+            <End Role="engineering" EntitySet="engineering" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship6" Association="Self.Relationship6">
+            <End Role="grindingmethod" EntitySet="grindingmethod" />
+            <End Role="characteristics" EntitySet="characteristics" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship7" Association="Self.Relationship7">
+            <End Role="engineeringtype" EntitySet="engineeringtype" />
+            <End Role="characteristics" EntitySet="characteristics" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="practiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="characteristics">
+          <Key>
+            <PropertyRef Name="CharacteristicsID" />
+          </Key>
+          <Property Name="CharacteristicsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Perfomance" Type="Double" />
+          <Property Name="EnginePower" Type="Double" />
+          <Property Name="InputSize" Type="Double" />
+          <Property Name="OutputSize" Type="Double" />
+          <Property Name="Weight" Type="Double" />
+          <Property Name="GMID" Type="Int32" />
+          <Property Name="EnTypeID" Type="Int32" />
+          <NavigationProperty Name="engineering" Relationship="Self.Relationship5" FromRole="characteristics" ToRole="engineering" />
+          <NavigationProperty Name="grindingmethod" Relationship="Self.Relationship6" FromRole="characteristics" ToRole="grindingmethod" />
+          <NavigationProperty Name="engineeringtype" Relationship="Self.Relationship7" FromRole="characteristics" ToRole="engineeringtype" />
+        </EntityType>
+        <EntityType Name="engineering">
+          <Key>
+            <PropertyRef Name="EnID" />
+          </Key>
+          <Property Name="EnID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Cost" Type="Decimal" />
+          <Property Name="CharacteristicsID" Type="Int32" />
+          <NavigationProperty Name="characteristics" Relationship="Self.Relationship5" FromRole="engineering" ToRole="characteristics" />
+          <NavigationProperty Name="process" Relationship="Self.Relationship1" FromRole="engineering" ToRole="process" />
+        </EntityType>
+        <EntityType Name="engineeringtype">
+          <Key>
+            <PropertyRef Name="EnTypeID" />
+          </Key>
+          <Property Name="EnTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="characteristics" Relationship="Self.Relationship7" FromRole="engineeringtype" ToRole="characteristics" />
+        </EntityType>
+        <EntityType Name="grindingmethod">
+          <Key>
+            <PropertyRef Name="GMID" />
+          </Key>
+          <Property Name="GMID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="characteristics" Relationship="Self.Relationship6" FromRole="grindingmethod" ToRole="characteristics" />
+        </EntityType>
+        <EntityType Name="material">
+          <Key>
+            <PropertyRef Name="MatID" />
+          </Key>
+          <Property Name="MatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="BreakingPointMin" Type="Double" />
+          <Property Name="BreakingPointMax" Type="Double" />
+          <NavigationProperty Name="process" Relationship="Self.Relationship2" FromRole="material" ToRole="process" />
+        </EntityType>
+        <EntityType Name="process">
+          <Key>
+            <PropertyRef Name="EnID" />
+            <PropertyRef Name="MatID" />
+          </Key>
+          <Property Name="EnID" Type="Int32" Nullable="false" />
+          <Property Name="MatID" Type="Int32" Nullable="false" />
+          <Property Name="Abiity" Type="Boolean" />
+          <NavigationProperty Name="engineering" Relationship="Self.Relationship1" FromRole="process" ToRole="engineering" />
+          <NavigationProperty Name="material" Relationship="Self.Relationship2" FromRole="process" ToRole="material" />
+        </EntityType>
+        <Association Name="Relationship5">
+          <End Role="characteristics" Type="Self.characteristics" Multiplicity="0..1" />
+          <End Role="engineering" Type="Self.engineering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="characteristics">
+              <PropertyRef Name="CharacteristicsID" />
+            </Principal>
+            <Dependent Role="engineering">
+              <PropertyRef Name="CharacteristicsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship6">
+          <End Role="grindingmethod" Type="Self.grindingmethod" Multiplicity="0..1" />
+          <End Role="characteristics" Type="Self.characteristics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="grindingmethod">
+              <PropertyRef Name="GMID" />
+            </Principal>
+            <Dependent Role="characteristics">
+              <PropertyRef Name="GMID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship7">
+          <End Role="engineeringtype" Type="Self.engineeringtype" Multiplicity="0..1" />
+          <End Role="characteristics" Type="Self.characteristics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="engineeringtype">
+              <PropertyRef Name="EnTypeID" />
+            </Principal>
+            <Dependent Role="characteristics">
+              <PropertyRef Name="EnTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship1">
+          <End Role="engineering" Type="Self.engineering" Multiplicity="1" />
+          <End Role="process" Type="Self.process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="engineering">
+              <PropertyRef Name="EnID" />
+            </Principal>
+            <Dependent Role="process">
+              <PropertyRef Name="EnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Relationship2">
+          <End Role="material" Type="Self.material" Multiplicity="1" />
+          <End Role="process" Type="Self.process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="material">
+              <PropertyRef Name="MatID" />
+            </Principal>
+            <Dependent Role="process">
+              <PropertyRef Name="MatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="practiceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="characteristics" EntityType="Self.characteristics" />
+          <EntitySet Name="engineering" EntityType="Self.engineering" />
+          <EntitySet Name="engineeringtype" EntityType="Self.engineeringtype" />
+          <EntitySet Name="grindingmethod" EntityType="Self.grindingmethod" />
+          <EntitySet Name="material" EntityType="Self.material" />
+          <EntitySet Name="process" EntityType="Self.process" />
+          <AssociationSet Name="Relationship5" Association="Self.Relationship5">
+            <End Role="characteristics" EntitySet="characteristics" />
+            <End Role="engineering" EntitySet="engineering" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship6" Association="Self.Relationship6">
+            <End Role="grindingmethod" EntitySet="grindingmethod" />
+            <End Role="characteristics" EntitySet="characteristics" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship7" Association="Self.Relationship7">
+            <End Role="engineeringtype" EntitySet="engineeringtype" />
+            <End Role="characteristics" EntitySet="characteristics" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship1" Association="Self.Relationship1">
+            <End Role="engineering" EntitySet="engineering" />
+            <End Role="process" EntitySet="process" />
+          </AssociationSet>
+          <AssociationSet Name="Relationship2" Association="Self.Relationship2">
+            <End Role="material" EntitySet="material" />
+            <End Role="process" EntitySet="process" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище practiceModelContainer" CdmEntityContainer="practiceEntities">
+          <EntitySetMapping Name="characteristics">
+            <EntityTypeMapping TypeName="practiceModel.characteristics">
+              <MappingFragment StoreEntitySet="characteristics">
+                <ScalarProperty Name="CharacteristicsID" ColumnName="CharacteristicsID" />
+                <ScalarProperty Name="Perfomance" ColumnName="Perfomance" />
+                <ScalarProperty Name="EnginePower" ColumnName="EnginePower" />
+                <ScalarProperty Name="InputSize" ColumnName="InputSize" />
+                <ScalarProperty Name="OutputSize" ColumnName="OutputSize" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="GMID" ColumnName="GMID" />
+                <ScalarProperty Name="EnTypeID" ColumnName="EnTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="engineering">
+            <EntityTypeMapping TypeName="practiceModel.engineering">
+              <MappingFragment StoreEntitySet="engineering">
+                <ScalarProperty Name="EnID" ColumnName="EnID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="CharacteristicsID" ColumnName="CharacteristicsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="engineeringtype">
+            <EntityTypeMapping TypeName="practiceModel.engineeringtype">
+              <MappingFragment StoreEntitySet="engineeringtype">
+                <ScalarProperty Name="EnTypeID" ColumnName="EnTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="grindingmethod">
+            <EntityTypeMapping TypeName="practiceModel.grindingmethod">
+              <MappingFragment StoreEntitySet="grindingmethod">
+                <ScalarProperty Name="GMID" ColumnName="GMID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="material">
+            <EntityTypeMapping TypeName="practiceModel.material">
+              <MappingFragment StoreEntitySet="material">
+                <ScalarProperty Name="MatID" ColumnName="MatID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BreakingPointMin" ColumnName="BreakingPointMin" />
+                <ScalarProperty Name="BreakingPointMax" ColumnName="BreakingPointMax" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="process">
+            <EntityTypeMapping TypeName="practiceModel.process">
+              <MappingFragment StoreEntitySet="process">
+                <ScalarProperty Name="EnID" ColumnName="EnID" />
+                <ScalarProperty Name="MatID" ColumnName="MatID" />
+                <ScalarProperty Name="Abiity" ColumnName="Abiity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
